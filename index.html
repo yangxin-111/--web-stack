@@ -25,7 +25,6 @@
       position: relative;
       -webkit-font-smoothing: antialiased;
     }
-    /* 未登录时遮罩 */
     .login-wall {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       background: rgba(0,0,0,0.9); z-index: 9999;
@@ -45,14 +44,12 @@
       background: radial-gradient(circle at 30% 30%, rgba(20,40,70,0.55) 0%, rgba(5,12,24,0.82) 90%);
       pointer-events: none;
     }
-
     .app-wrapper {
       position: relative; z-index: 2;
       width: 100%; min-height: 100vh;
       display: flex; flex-direction: column; align-items: center;
       padding: 20px 16px calc(var(--nav-height) + var(--safe-bottom) + 24px);
     }
-
     .panel-container {
       width: 100%; max-width: 800px; margin: 0 auto; flex: 1; display: flex; flex-direction: column;
     }
@@ -70,7 +67,7 @@
     .panel-header i { font-size: 1.4rem; color: var(--accent); }
     .panel-body { flex: 1; padding: 16px; display: flex; flex-direction: column; overflow: hidden; }
 
-    /* 群聊样式 */
+    /* 群聊 */
     .group-layout { display: flex; flex: 1; gap: 12px; min-height: 0; }
     .member-panel {
       width: 130px; background: rgba(0,0,0,0.25); border-radius: 18px;
@@ -103,21 +100,20 @@
     .input-bar input::placeholder { color: rgba(255,255,255,0.4); }
     .input-bar button { background: var(--accent2); border: none; border-radius: 50%; width: 42px; height: 42px; color: #fff; font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; }
 
-    /* 音乐样式 */
+    /* 音乐 */
     .music-inner { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; gap: 20px; }
     .vinyl-icon { font-size: 5rem; color: #f5c782; filter: drop-shadow(0 12px 15px rgba(0,0,0,0.6)); }
     .track-title { font-weight: 700; font-size: 1.3rem; text-align: center; }
-    .track-artist { display: none; }
     .music-controls { display: flex; gap: 25px; align-items: center; }
     .music-controls i { font-size: 2.2rem; cursor: pointer; color: #e0e8ff; transition: 0.2s; }
     .music-controls i:active { color: #ffb347; transform: scale(0.9); }
 
-    /* AI样式 */
+    /* AI */
     .ai-response-box { background: rgba(0,0,0,0.35); border-radius: 18px; padding: 14px; min-height: 80px; margin-bottom: 14px; font-style: italic; color: #d4e6ff; position: relative; }
     .summon-badge { position: absolute; top: 8px; right: 8px; background: linear-gradient(135deg,#ff6b6b,#ff8e53); border: none; border-radius: 25px; padding: 5px 16px; color: white; font-weight: bold; font-size: 0.8rem; cursor: pointer; animation: glowPulse 2s infinite; }
     @keyframes glowPulse { 0%{box-shadow:0 0 0 0 rgba(255,107,107,0.7);} 70%{box-shadow:0 0 0 10px rgba(255,107,107,0);} 100%{box-shadow:0 0 0 0;} }
 
-    /* 日记样式 */
+    /* 日记 */
     .diary-area { display: flex; flex-direction: column; gap: 10px; height: 100%; }
     .diary-area textarea { flex: 1; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2); border-radius: 18px; padding: 12px; color: white; resize: none; font-size: 0.95rem; }
     .media-strip { display: flex; gap: 8px; flex-wrap: wrap; }
@@ -127,13 +123,11 @@
     .btn-sm { background: #5f7d9c; border: none; border-radius: 25px; padding: 7px 15px; color: white; font-weight: 500; cursor: pointer; }
     .btn-primary { background: #ff9f4b; }
 
-    /* 桌面侧边菜单 */
     .side-menu {
       position: fixed; left: 18px; top: 50%; transform: translateY(-50%);
       z-index: 30; display: flex; flex-direction: column; gap: 16px;
       background: rgba(255,255,255,0.06); backdrop-filter: blur(12px);
-      padding: 18px 10px; border-radius: 40px;
-      border: 1px solid rgba(255,255,255,0.15);
+      padding: 18px 10px; border-radius: 40px; border: 1px solid rgba(255,255,255,0.15);
     }
     .menu-icon {
       width: 46px; height: 46px; display: flex; align-items: center; justify-content: center;
@@ -148,12 +142,10 @@
     }
     .menu-icon:hover::after { opacity: 1; }
 
-    /* 底部导航 (手机) */
     .bottom-nav {
       display: none; position: fixed; bottom: 12px; left: 50%; transform: translateX(-50%);
       z-index: 120; background: rgba(18,28,46,0.85); backdrop-filter: blur(20px);
-      border-radius: 36px; padding: 10px 22px; gap: 16px;
-      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 36px; padding: 10px 22px; gap: 16px; border: 1px solid rgba(255,255,255,0.2);
     }
     .nav-item {
       width: 44px; height: 44px; display: flex; align-items: center; justify-content: center;
@@ -161,7 +153,6 @@
     }
     .nav-item.active { background: rgba(255,159,75,0.45); color: white; }
 
-    /* 浮动聊天 */
     .floating-chat {
       position: fixed; bottom: 90px; right: 24px; width: 360px; height: 480px;
       background: rgba(15,25,40,0.9); backdrop-filter: blur(20px);
@@ -186,7 +177,6 @@
   </style>
 </head>
 <body>
-<!-- 未登录遮罩 -->
 <div class="login-wall hidden" id="loginWall">
   <i class="fas fa-lock" style="font-size:2rem;"></i>
   <span>请先通过登录页进入</span>
@@ -196,15 +186,11 @@
 <div class="bg-layer" id="bgImage" style="background-image: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1950&q=80');"></div>
 <div class="bg-overlay"></div>
 
-<!-- 顶部按钮 -->
 <div style="position:fixed; top:18px; right:18px; z-index:130; display:flex; gap:8px;">
-  <button id="changeNicknameBtn" style="background:rgba(255,255,255,0.12); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.2); border-radius:30px; padding:8px 14px; color:white; font-size:0.8rem;" title="修改昵称">
-    <i class="fas fa-user-edit"></i> <span id="currentNickDisplay">我</span>
-  </button>
+  <button id="changeNicknameBtn" style="background:rgba(255,255,255,0.12); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.2); border-radius:30px; padding:8px 14px; color:white; font-size:0.8rem;" title="修改昵称"><i class="fas fa-user-edit"></i> <span id="currentNickDisplay">我</span></button>
   <button id="bgBtn" style="background:rgba(255,255,255,0.12); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.2); border-radius:30px; padding:8px 16px; color:white; font-size:0.85rem;"><i class="fas fa-palette"></i> 背景</button>
 </div>
 
-<!-- 桌面侧边菜单 -->
 <div class="side-menu" id="sideMenu">
   <div class="menu-icon active" data-panel="chat" data-tooltip="群聊"><i class="fas fa-users"></i></div>
   <div class="menu-icon" data-panel="music" data-tooltip="音乐"><i class="fas fa-music"></i></div>
@@ -212,7 +198,6 @@
   <div class="menu-icon" data-panel="diary" data-tooltip="日记"><i class="fas fa-book"></i></div>
 </div>
 
-<!-- 手机底部导航 -->
 <div class="bottom-nav" id="bottomNav">
   <div class="nav-item active" data-panel="chat"><i class="fas fa-users"></i></div>
   <div class="nav-item" data-panel="music"><i class="fas fa-music"></i></div>
@@ -220,18 +205,11 @@
   <div class="nav-item" data-panel="diary"><i class="fas fa-book"></i></div>
 </div>
 
-<!-- 浮动聊天窗 -->
 <div class="floating-chat" id="floatingChat">
-  <div class="float-header" id="floatHeader">
-    <span><i class="fas fa-users"></i> 群聊</span>
-    <div><i class="fas fa-times" id="closeFloat"></i></div>
-  </div>
+  <div class="float-header" id="floatHeader"><span><i class="fas fa-users"></i> 群聊</span><div><i class="fas fa-times" id="closeFloat"></i></div></div>
   <div class="float-body">
     <div class="message-list" id="floatMessages"></div>
-    <div class="input-bar">
-      <input type="text" id="floatInput" placeholder="消息...">
-      <button id="floatSendBtn"><i class="fas fa-paper-plane"></i></button>
-    </div>
+    <div class="input-bar"><input type="text" id="floatInput" placeholder="消息..."><button id="floatSendBtn"><i class="fas fa-paper-plane"></i></button></div>
   </div>
 </div>
 
@@ -239,36 +217,24 @@
   <div class="panel-container">
     <!-- 群聊面板 -->
     <div class="card-panel active" id="panel-chat">
-      <div class="panel-header"><i class="fas fa-users"></i> 我们的群聊 <span style="font-size:0.7rem; opacity:0.7;">(4人在线)</span></div>
+      <div class="panel-header"><i class="fas fa-users"></i> 我们的群聊 <span style="font-size:0.7rem; opacity:0.7;" id="onlineCount">(1人在线)</span></div>
       <div class="panel-body">
         <div class="group-layout">
-          <div class="member-panel" id="memberList">
-            <div class="member-item"><div class="member-avatar" id="myAvatar">我</div><span id="myNameDisplay">我</span><div class="online-badge"></div></div>
-            <div class="member-item"><div class="member-avatar" style="background:#5f7d9c;">明</div><span>小明</span><div class="online-badge"></div></div>
-            <div class="member-item"><div class="member-avatar" style="background:#7b5ea7;">红</div><span>小红</span><div class="online-badge"></div></div>
-            <div class="member-item"><div class="member-avatar" style="background:#3b8c6e;">壮</div><span>大壮</span><div class="online-badge"></div></div>
-          </div>
+          <div class="member-panel" id="memberList"></div>
           <div class="chat-main">
             <div class="message-list" id="groupMessages"></div>
-            <div class="input-bar">
-              <input type="text" id="groupInput" placeholder="输入群消息...">
-              <button id="sendGroupBtn"><i class="fas fa-paper-plane"></i></button>
-            </div>
+            <div class="input-bar"><input type="text" id="groupInput" placeholder="输入群消息..."><button id="sendGroupBtn"><i class="fas fa-paper-plane"></i></button></div>
           </div>
         </div>
       </div>
     </div>
-
     <!-- 音乐面板 -->
     <div class="card-panel" id="panel-music">
       <div class="panel-header"><i class="fas fa-headphones"></i> 此刻音乐</div>
       <div class="panel-body">
         <div class="music-inner">
           <div class="vinyl-icon"><i class="fas fa-compact-disc"></i></div>
-          <div>
-            <div class="track-title" id="songTitle">加载中...</div>
-            <div class="track-artist" id="artistName"></div>
-          </div>
+          <div class="track-title" id="songTitle">加载中...</div>
           <div class="music-controls">
             <i class="fas fa-backward" id="prevBtn"></i>
             <i class="fas fa-play-circle" id="playBtn" style="font-size:2.6rem;"></i>
@@ -277,36 +243,32 @@
         </div>
       </div>
     </div>
-
     <!-- AI面板 -->
     <div class="card-panel" id="panel-ai">
       <div class="panel-header"><i class="fas fa-brain"></i> 小友 AI <span style="width:8px;height:8px;background:#4caf50;border-radius:50%;margin-left:6px;"></span></div>
       <div class="panel-body" style="position:relative;">
         <button class="summon-badge" id="summonBtn"><i class="fas fa-bell"></i> 呼唤</button>
         <div class="ai-response-box" id="aiResponse">✨ 问我任何事，或者点击呼唤AI~</div>
-        <div class="input-bar">
-          <input type="text" id="aiInput" placeholder="和AI对话...">
-          <button id="sendAiBtn"><i class="fas fa-arrow-right"></i></button>
-        </div>
+        <div class="input-bar"><input type="text" id="aiInput" placeholder="和AI对话..."><button id="sendAiBtn"><i class="fas fa-arrow-right"></i></button></div>
       </div>
     </div>
-
     <!-- 日记面板 -->
     <div class="card-panel" id="panel-diary">
       <div class="panel-header"><i class="fas fa-feather-alt"></i> 共享日记</div>
       <div class="panel-body">
         <div class="diary-area">
-          <textarea id="diaryText" placeholder="写点什么..."></textarea>
-          <div class="media-strip" id="mediaPreview">
-            <div class="media-thumb"><i class="fas fa-image"></i></div>
-            <div class="media-thumb"><i class="fas fa-video"></i></div>
+          <div style="display:flex; gap:8px; margin-bottom:8px;">
+            <button class="diary-tab active" data-tab="public" style="background:rgba(255,255,255,0.15); border:none; border-radius:20px; padding:6px 16px; color:white; cursor:pointer; font-size:0.85rem;">📢 公开日记</button>
+            <button class="diary-tab" data-tab="private" style="background:rgba(255,255,255,0.05); border:none; border-radius:20px; padding:6px 16px; color:white; cursor:pointer; font-size:0.85rem;">🔒 我的私密</button>
           </div>
+          <textarea id="diaryText" placeholder="写公开日记..."></textarea>
+          <div class="media-strip" id="mediaPreview"><div class="media-thumb"><i class="fas fa-image"></i></div><div class="media-thumb"><i class="fas fa-video"></i></div></div>
           <div class="diary-actions">
             <input type="text" id="mediaUrlInput" placeholder="媒体URL">
             <button class="btn-sm" id="addMediaBtn">添加</button>
             <button class="btn-sm btn-primary" id="saveDiaryBtn">记录</button>
           </div>
-          <div id="diaryEntries" style="margin-top:6px; max-height:60px; overflow-y:auto; font-size:0.75rem;"></div>
+          <div id="diaryEntries" style="margin-top:6px; max-height:120px; overflow-y:auto; font-size:0.75rem;"></div>
         </div>
       </div>
     </div>
@@ -314,271 +276,162 @@
 </div>
 
 <script>
-  (function() {
-    // ---------- 登录检查 ----------
-    const savedName = localStorage.getItem('username');
-    if (!savedName) {
-      // 未登录，显示遮罩，不允许使用
-      document.getElementById('loginWall').classList.remove('hidden');
-      // 停止后续脚本执行（简单处理）
-      throw new Error('未登录');
+(function() {
+  // 登录检查
+  const savedName = localStorage.getItem('username');
+  if (!savedName) { document.getElementById('loginWall').classList.remove('hidden'); return; }
+
+  let myName = savedName;
+  let myColor = localStorage.getItem('myColor') || '#ff9f4b';
+  document.getElementById('currentNickDisplay').textContent = myName;
+
+  // 修改昵称
+  document.getElementById('changeNicknameBtn').addEventListener('click', ()=>{
+    const newName = prompt('输入新昵称（最多12个字符）', myName);
+    if (newName && newName.trim().length>0 && newName.trim().length<=12) {
+      localStorage.setItem('username', newName.trim());
+      const colors = ['#ff9f4b','#5f7d9c','#7b5ea7','#3b8c6e','#e0567a','#4ecdc4','#f7b731','#6c5ce7'];
+      myColor = colors[Math.floor(Math.random()*colors.length)];
+      localStorage.setItem('myColor', myColor);
+      myName = newName.trim();
+      document.getElementById('currentNickDisplay').textContent = myName;
+      // 可能需要重新加入
+      if (ws && ws.readyState===WebSocket.OPEN) ws.send(JSON.stringify({type:'join', name:myName, color:myColor}));
     }
+  });
 
-    // ---------- 昵称管理 ----------
-    let myName = savedName;
-    let myColor = localStorage.getItem('myColor') || '#ff9f4b';
-    const myAvatar = document.getElementById('myAvatar');
-    const myNameDisplay = document.getElementById('myNameDisplay');
-    const currentNickDisplay = document.getElementById('currentNickDisplay');
+  // 背景
+  const bgDiv = document.getElementById('bgImage');
+  function setBg(url){ bgDiv.style.backgroundImage=`url('${url}')`; localStorage.setItem('bg',url); }
+  document.getElementById('bgBtn').addEventListener('click',()=>{
+    const url=prompt('输入背景图片URL','https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=1950');
+    if(url) setBg(url);
+  });
+  if(localStorage.getItem('bg')) setBg(localStorage.getItem('bg'));
 
-    function updateNicknameUI(name) {
-      myName = name;
-      myAvatar.textContent = name[0] || '我';
-      myNameDisplay.textContent = name;
-      currentNickDisplay.textContent = name;
-      myAvatar.style.background = myColor;
-    }
-    updateNicknameUI(myName);
+  // 面板切换
+  const panels = { chat:document.getElementById('panel-chat'), music:document.getElementById('panel-music'), ai:document.getElementById('panel-ai'), diary:document.getElementById('panel-diary') };
+  const menuIcons = document.querySelectorAll('.menu-icon');
+  const navItems = document.querySelectorAll('.nav-item');
+  function switchPanel(panelName){
+    Object.values(panels).forEach(p=>p.classList.remove('active'));
+    if(panels[panelName]) panels[panelName].classList.add('active');
+    menuIcons.forEach(i=>{ i.classList.remove('active'); if(i.dataset.panel===panelName) i.classList.add('active'); });
+    navItems.forEach(i=>{ i.classList.remove('active'); if(i.dataset.panel===panelName) i.classList.add('active'); });
+  }
+  menuIcons.forEach(i=>i.addEventListener('click', ()=>switchPanel(i.dataset.panel)));
+  navItems.forEach(i=>i.addEventListener('click', ()=>switchPanel(i.dataset.panel)));
 
-    // 修改昵称按钮
-    document.getElementById('changeNicknameBtn').addEventListener('click', () => {
-      const newName = prompt('输入新昵称（最多12个字符）', myName);
-      if (newName && newName.trim().length > 0 && newName.trim().length <= 12) {
-        localStorage.setItem('username', newName.trim());
-        const colors = ['#ff9f4b','#5f7d9c','#7b5ea7','#3b8c6e','#e0567a','#4ecdc4','#f7b731','#6c5ce7'];
-        myColor = colors[Math.floor(Math.random() * colors.length)];
-        localStorage.setItem('myColor', myColor);
-        updateNicknameUI(newName.trim());
-      } else if (newName) {
-        alert('昵称不合法');
-      }
-    });
+  // WebSocket
+  const wsUrl = 'ws://47.114.124.77:3000';
+  let ws;
+  const groupContainer = document.getElementById('groupMessages');
+  const floatContainer = document.getElementById('floatMessages');
+  const floatingChat = document.getElementById('floatingChat');
 
-    // ---------- 背景设置 ----------
-    const bgDiv = document.getElementById('bgImage');
-    function setBg(url) { bgDiv.style.backgroundImage = `url('${url}')`; localStorage.setItem('bg',url); }
-    document.getElementById('bgBtn').addEventListener('click',()=>{
-      const url = prompt('输入背景图片URL (或使用预设):', 'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=1950');
-      if(url) setBg(url);
-    });
-    if(localStorage.getItem('bg')) setBg(localStorage.getItem('bg'));
-
-    // ---------- 面板切换 ----------
-    const panels = {
-      chat: document.getElementById('panel-chat'),
-      music: document.getElementById('panel-music'),
-      ai: document.getElementById('panel-ai'),
-      diary: document.getElementById('panel-diary')
+  function connectWS(){
+    ws=new WebSocket(wsUrl);
+    ws.onopen=()=>{
+      addSystemBoth('✅ 已连接到群聊服务器');
+      ws.send(JSON.stringify({type:'join', name:myName, color:myColor}));
+      loadDiaryFromServer();  // 加载日记
     };
-    const menuIcons = document.querySelectorAll('.menu-icon');
-    const navItems = document.querySelectorAll('.nav-item');
-
-    function switchPanel(panelName) {
-      Object.values(panels).forEach(p => p.classList.remove('active'));
-      if (panels[panelName]) panels[panelName].classList.add('active');
-      menuIcons.forEach(icon => {
-        icon.classList.remove('active');
-        if (icon.dataset.panel === panelName) icon.classList.add('active');
-      });
-      navItems.forEach(item => {
-        item.classList.remove('active');
-        if (item.dataset.panel === panelName) item.classList.add('active');
-      });
-    }
-
-    menuIcons.forEach(icon => icon.addEventListener('click', () => switchPanel(icon.dataset.panel)));
-    navItems.forEach(item => item.addEventListener('click', () => switchPanel(item.dataset.panel)));
-
-    // ---------- 群聊 (WebSocket) ----------
-    const members = {
-      '小明': { avatar:'明', color:'#5f7d9c' },
-      '小红': { avatar:'红', color:'#7b5ea7' },
-      '大壮': { avatar:'壮', color:'#3b8c6e' }
+    ws.onmessage=(e)=>{
+      try{
+        const msg=JSON.parse(e.data);
+        if(msg.type==='chat') addMessageBoth(msg.sender,msg.text,msg.sender===myName,msg.time);
+        else if(msg.type==='system') addSystemBoth(msg.text);
+        else if(msg.type==='history'){ msg.messages.forEach(m=>addMessageBoth(m.sender,m.text,m.sender===myName,m.time)); addSystemBoth('📜 已加载最近消息'); }
+        else if(msg.type==='onlineList') renderOnlineList(msg.users);
+        else if(msg.type==='diaryData' && msg.diaryType===currentDiaryTab) renderDiaryEntries(msg.entries);
+      }catch(err){}
     };
-    const wsUrl = 'ws://47.114.124.77:3000';
-    let ws;
-    const groupContainer = document.getElementById('groupMessages');
-    const floatContainer = document.getElementById('floatMessages');
-    const floatingChat = document.getElementById('floatingChat');
-
-    function connectWS() {
-      ws = new WebSocket(wsUrl);
-      ws.onopen = () => addSystemBoth('✅ 已连接到群聊服务器');
-      ws.onmessage = (e) => {
-        try {
-          const msg = JSON.parse(e.data);
-          if(msg.type === 'chat') addMessageBoth(msg.sender, msg.text, msg.sender===myName, msg.time);
-          else if(msg.type === 'system') addSystemBoth(msg.text);
-        } catch(err) {}
-      };
-      ws.onclose = () => { addSystemBoth('❌ 连接断开，3秒后重连'); setTimeout(connectWS,3000); };
-    }
-    function sendMsg(text) {
-      if(ws && ws.readyState === WebSocket.OPEN) {
-        ws.send(JSON.stringify({type:'chat', sender:myName, text}));
-      } else {
-        addSystemBoth('⚠️ 未连接服务器');
-      }
-    }
-    function addMessageBoth(sender,text,isSelf,timeStr) {
-      addMsgTo(groupContainer, sender,text,isSelf,timeStr);
-      if(floatingChat.classList.contains('active')) addMsgTo(floatContainer, sender,text,isSelf,timeStr);
-    }
-    function addSystemBoth(text) {
-      addSysTo(groupContainer, text);
-      if(floatingChat.classList.contains('active')) addSysTo(floatContainer, text);
-    }
-    function addMsgTo(container, sender, text, isSelf, timeStr) {
-      const time = timeStr || new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
-      const row = document.createElement('div'); row.className = 'msg-row' + (isSelf?' self':'');
-      const av = document.createElement('div'); av.className='msg-avatar';
-      const senderInfo = members[sender] || { avatar: sender[0] || '?', color: isSelf ? myColor : '#888' };
-      av.style.background = senderInfo.color;
-      av.textContent = senderInfo.avatar;
-      const bubble = document.createElement('div'); bubble.className='msg-bubble';
-      bubble.innerHTML = `<div class="msg-sender">${sender}</div>${escapeHTML(text)}<div class="msg-time">${time}</div>`;
-      row.appendChild(av); row.appendChild(bubble);
-      container.appendChild(row); container.scrollTop = container.scrollHeight;
-    }
-    function addSysTo(container, text) {
-      const div = document.createElement('div'); div.className='system-note'; div.textContent=text;
-      container.appendChild(div); container.scrollTop = container.scrollHeight;
-    }
-    function escapeHTML(s) { const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
-    connectWS();
-
-    document.getElementById('sendGroupBtn').addEventListener('click', ()=>{
-      const inp = document.getElementById('groupInput');
-      if(inp.value.trim()) { sendMsg(inp.value.trim()); inp.value=''; }
+    ws.onclose=()=>{ addSystemBoth('❌ 连接断开，3秒后重连'); setTimeout(connectWS,3000); };
+  }
+  function sendMsg(text){
+    if(ws&&ws.readyState===WebSocket.OPEN) ws.send(JSON.stringify({type:'chat', sender:myName, text}));
+    else addSystemBoth('⚠️ 未连接服务器');
+  }
+  function addMessageBoth(sender,text,isSelf,timeStr){ addMsgTo(groupContainer,sender,text,isSelf,timeStr); if(floatingChat.classList.contains('active')) addMsgTo(floatContainer,sender,text,isSelf,timeStr); }
+  function addSystemBoth(text){ addSysTo(groupContainer,text); if(floatingChat.classList.contains('active')) addSysTo(floatContainer,text); }
+  function addMsgTo(container,sender,text,isSelf,timeStr){
+    const time=timeStr||new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+    const row=document.createElement('div'); row.className='msg-row'+(isSelf?' self':'');
+    const av=document.createElement('div'); av.className='msg-avatar'; av.style.background=isSelf?myColor:'#888'; av.textContent=sender[0]||'?';
+    const bubble=document.createElement('div'); bubble.className='msg-bubble';
+    bubble.innerHTML=`<div class="msg-sender">${sender}</div>${escapeHTML(text)}<div class="msg-time">${time}</div>`;
+    row.appendChild(av); row.appendChild(bubble); container.appendChild(row); container.scrollTop=container.scrollHeight;
+  }
+  function addSysTo(container,text){ const div=document.createElement('div'); div.className='system-note'; div.textContent=text; container.appendChild(div); container.scrollTop=container.scrollHeight; }
+  function escapeHTML(s){ const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
+  function renderOnlineList(users){
+    const panel=document.getElementById('memberList'); panel.innerHTML='';
+    const me=document.createElement('div'); me.className='member-item';
+    me.innerHTML=`<div class="member-avatar" style="background:${myColor}">${myName[0]}</div><span>${myName} (我)</span><div class="online-badge"></div>`;
+    panel.appendChild(me);
+    users.forEach(u=>{ if(u.name===myName) return;
+      const d=document.createElement('div'); d.className='member-item';
+      d.innerHTML=`<div class="member-avatar" style="background:${u.color||'#888'}">${u.avatar||u.name[0]}</div><span>${u.name}</span><div class="online-badge"></div>`;
+      panel.appendChild(d);
     });
-    document.getElementById('floatSendBtn').addEventListener('click', ()=>{
-      const inp = document.getElementById('floatInput');
-      if(inp.value.trim()) { sendMsg(inp.value.trim()); inp.value=''; }
-    });
+    document.getElementById('onlineCount').textContent=`(${users.length+1}人在线)`;
+  }
+  connectWS();
 
-    // 浮动聊天控制
-    document.getElementById('closeFloat').addEventListener('click', ()=> floatingChat.classList.remove('active'));
-    const floatHeader = document.getElementById('floatHeader');
-    let dragging = false, offX, offY;
-    floatHeader.addEventListener('mousedown', (e)=>{
-      if(window.innerWidth<=768) return;
-      dragging=true; const rect=floatingChat.getBoundingClientRect();
-      offX=e.clientX-rect.left; offY=e.clientY-rect.top;
-      floatingChat.style.transition='none';
-    });
-    document.addEventListener('mousemove', (e)=>{
-      if(!dragging) return;
-      floatingChat.style.left = (e.clientX-offX)+'px';
-      floatingChat.style.top = (e.clientY-offY)+'px';
-      floatingChat.style.right='auto'; floatingChat.style.bottom='auto';
-    });
-    document.addEventListener('mouseup', ()=>{ dragging=false; floatingChat.style.transition=''; });
+  document.getElementById('sendGroupBtn').addEventListener('click',()=>{ const inp=document.getElementById('groupInput'); if(inp.value.trim()){sendMsg(inp.value.trim()); inp.value='';} });
+  document.getElementById('floatSendBtn').addEventListener('click',()=>{ const inp=document.getElementById('floatInput'); if(inp.value.trim()){sendMsg(inp.value.trim()); inp.value='';} });
+  document.getElementById('closeFloat').addEventListener('click',()=>floatingChat.classList.remove('active'));
+  const floatHeader=document.getElementById('floatHeader');
+  let dragging=false,offX,offY;
+  floatHeader.addEventListener('mousedown',(e)=>{ if(window.innerWidth<=768)return; dragging=true; const rect=floatingChat.getBoundingClientRect(); offX=e.clientX-rect.left; offY=e.clientY-rect.top; floatingChat.style.transition='none'; });
+  document.addEventListener('mousemove',(e)=>{ if(!dragging)return; floatingChat.style.left=(e.clientX-offX)+'px'; floatingChat.style.top=(e.clientY-offY)+'px'; floatingChat.style.right='auto'; floatingChat.style.bottom='auto'; });
+  document.addEventListener('mouseup',()=>{ dragging=false; floatingChat.style.transition=''; });
+  document.getElementById('panel-chat').addEventListener('dblclick',()=>{ if(window.innerWidth<=768)floatingChat.classList.add('active'); });
 
-    // 双击群聊卡片打开浮动窗 (移动端)
-    document.getElementById('panel-chat').addEventListener('dblclick', ()=>{
-      if(window.innerWidth<=768) floatingChat.classList.add('active');
-    });
+  // 音乐播放器 (动态歌单)
+  const PLAYLIST_URL = 'https://raw.githubusercontent.com/阳新-111/Web-stack/main/playlist.json'; // 改为你自己的地址
+  const defaultTracks = [ { title:'示例1', url:'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3' }, { title:'示例2', url:'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3' } ];
+  let tracks=[], currentAudio=new Audio(), trackIdx=0, isPlaying=false;
+  const playBtn=document.getElementById('playBtn'), songTitle=document.getElementById('songTitle');
+  async function loadPlaylist(){
+    try{ const res=await fetch(PLAYLIST_URL); if(!res.ok)throw new Error(); const data=await res.json(); if(Array.isArray(data)&&data.length>0){ tracks=data.map(i=>({t:i.title||'未知',src:i.url})); }else throw new Error(); }catch(e){ console.warn('远程歌单加载失败，使用默认'); tracks=defaultTracks.map(i=>({t:i.title,src:i.url})); }
+    if(tracks.length>0) loadTrack(0); else songTitle.textContent='暂无音乐';
+  }
+  function loadTrack(idx){ if(!tracks[idx])return; currentAudio.src=tracks[idx].src; currentAudio.load(); songTitle.textContent=tracks[idx].t; }
+  playBtn.addEventListener('click',()=>{ if(!currentAudio.src||tracks.length===0)loadTrack(0); if(isPlaying){ currentAudio.pause(); isPlaying=false; playBtn.className='fas fa-play-circle'; }else{ currentAudio.play().then(()=>{isPlaying=true; playBtn.className='fas fa-pause-circle';}).catch(()=>alert('播放失败')); } });
+  document.getElementById('prevBtn').addEventListener('click',()=>{ if(tracks.length===0)return; trackIdx=(trackIdx-1+tracks.length)%tracks.length; loadTrack(trackIdx); if(isPlaying)currentAudio.play().catch(()=>{}); });
+  document.getElementById('nextBtn').addEventListener('click',()=>{ if(tracks.length===0)return; trackIdx=(trackIdx+1)%tracks.length; loadTrack(trackIdx); if(isPlaying)currentAudio.play().catch(()=>{}); });
+  currentAudio.addEventListener('ended',()=>{ if(tracks.length===0)return; trackIdx=(trackIdx+1)%tracks.length; loadTrack(trackIdx); currentAudio.play().then(()=>{isPlaying=true; playBtn.className='fas fa-pause-circle';}).catch(()=>{}); });
+  loadPlaylist();
 
-    // ---------- 音乐播放器 (动态远程播放列表) ----------
-    const PLAYLIST_URL = 'https://raw.githubusercontent.com/阳新-111/Web-stack/main/playlist.json';
-    const defaultTracks = [
-      { title: '示例歌曲1', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3' },
-      { title: '示例歌曲2', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3' }
-    ];
-    let tracks = [];
-    let currentAudio = new Audio();
-    let trackIdx = 0;
-    let isPlaying = false;
-    const playBtn = document.getElementById('playBtn');
-    const songTitle = document.getElementById('songTitle');
+  // AI
+  document.getElementById('sendAiBtn').addEventListener('click',()=>{ const t=document.getElementById('aiInput').value.trim(); if(t){ document.getElementById('aiResponse').innerHTML='✨ 好问题！'; document.getElementById('aiInput').value=''; } });
+  document.getElementById('summonBtn').addEventListener('click',()=>{ document.getElementById('aiResponse').innerHTML='👋 我在！'; document.getElementById('aiInput').focus(); switchPanel('ai'); });
 
-    async function loadPlaylist() {
-      try {
-        const response = await fetch(PLAYLIST_URL);
-        if (!response.ok) throw new Error('网络错误');
-        const data = await response.json();
-        if (Array.isArray(data) && data.length > 0) {
-          tracks = data.map(item => ({ t: item.title || '未知歌曲', src: item.url }));
-        } else {
-          throw new Error('列表为空');
-        }
-      } catch (err) {
-        console.warn('远程歌单加载失败，使用默认列表', err);
-        tracks = defaultTracks.map(item => ({ t: item.title, src: item.url }));
-      }
-      if (tracks.length > 0) { loadTrack(0); } else { songTitle.textContent = '暂无音乐'; }
-    }
-
-    function loadTrack(index) {
-      if (!tracks[index]) return;
-      currentAudio.src = tracks[index].src;
-      currentAudio.load();
-      songTitle.textContent = tracks[index].t;
-    }
-
-    playBtn.addEventListener('click', () => {
-      if (!currentAudio.src || tracks.length === 0) loadTrack(0);
-      if (isPlaying) {
-        currentAudio.pause(); isPlaying = false; playBtn.className = 'fas fa-play-circle';
-      } else {
-        currentAudio.play().then(() => { isPlaying = true; playBtn.className = 'fas fa-pause-circle'; })
-        .catch(err => { alert('播放失败，可能是音频链接失效'); });
-      }
+  // 日记 (公开/私人分离，服务端存储)
+  let currentDiaryTab='public', tempMedia=[];
+  function loadDiaryFromServer(){ if(ws&&ws.readyState===WebSocket.OPEN) ws.send(JSON.stringify({type:'diary', action:'load', diaryType:currentDiaryTab, username:myName})); else setTimeout(loadDiaryFromServer,500); }
+  function saveDiaryToServer(entry){ if(ws&&ws.readyState===WebSocket.OPEN) ws.send(JSON.stringify({type:'diary', action:'save', diaryType:currentDiaryTab, username:myName, entry})); }
+  function deleteDiaryOnServer(entryId){ if(ws&&ws.readyState===WebSocket.OPEN) ws.send(JSON.stringify({type:'diary', action:'delete', diaryType:'private', username:myName, entryId})); }
+  function renderDiaryEntries(entries){
+    const c=document.getElementById('diaryEntries'); c.innerHTML='';
+    if(!entries||entries.length===0){ c.innerHTML='<div style="opacity:0.5;text-align:center;padding:10px;">暂无日记</div>'; return; }
+    entries.forEach(e=>{
+      const d=document.createElement('div'); d.style.background='rgba(255,255,255,0.08)'; d.style.padding='6px 8px'; d.style.borderRadius='10px'; d.style.marginBottom='4px'; d.style.display='flex'; d.style.justifyContent='space-between'; d.style.alignItems='center';
+      const span=document.createElement('span'); span.innerHTML=`<i class="fas fa-pen"></i> ${e.text||'(无文字)'}`;
+      const time=document.createElement('span'); time.style.opacity='0.5'; time.style.fontSize='0.65rem'; time.textContent=e.time||'';
+      d.appendChild(span); d.appendChild(time);
+      if(currentDiaryTab==='private'){ const del=document.createElement('i'); del.className='fas fa-trash-alt'; del.style.cursor='pointer'; del.style.marginLeft='8px'; del.style.opacity='0.6'; del.addEventListener('click',(ev)=>{ ev.stopPropagation(); if(confirm('删除这条私人日记？'))deleteDiaryOnServer(e.id); }); d.appendChild(del); }
+      c.appendChild(d);
     });
-
-    document.getElementById('prevBtn').addEventListener('click', () => {
-      if (tracks.length === 0) return;
-      trackIdx = (trackIdx - 1 + tracks.length) % tracks.length;
-      loadTrack(trackIdx); if (isPlaying) currentAudio.play().catch(() => {});
-    });
-    document.getElementById('nextBtn').addEventListener('click', () => {
-      if (tracks.length === 0) return;
-      trackIdx = (trackIdx + 1) % tracks.length;
-      loadTrack(trackIdx); if (isPlaying) currentAudio.play().catch(() => {});
-    });
-
-    currentAudio.addEventListener('ended', () => {
-      if (tracks.length === 0) return;
-      trackIdx = (trackIdx + 1) % tracks.length;
-      loadTrack(trackIdx);
-      currentAudio.play().then(() => { isPlaying = true; playBtn.className = 'fas fa-pause-circle'; }).catch(() => {});
-    });
-
-    loadPlaylist();
-
-    // ---------- AI助手 ----------
-    document.getElementById('sendAiBtn').addEventListener('click',()=>{
-      const t=document.getElementById('aiInput').value.trim();
-      if(t){ document.getElementById('aiResponse').innerHTML='✨ 好问题！'; document.getElementById('aiInput').value=''; }
-    });
-    document.getElementById('summonBtn').addEventListener('click', ()=>{
-      document.getElementById('aiResponse').innerHTML='👋 我在！有什么可以帮你的？';
-      document.getElementById('aiInput').focus();
-      switchPanel('ai');
-    });
-
-    // ---------- 日记 ----------
-    let tempMedia=[];
-    function renderMedia(){
-      const p=document.getElementById('mediaPreview');
-      p.innerHTML = tempMedia.length ? '' : '<div class="media-thumb"><i class="fas fa-image"></i></div><div class="media-thumb"><i class="fas fa-video"></i></div>';
-      tempMedia.forEach(u=>{ const d=document.createElement('div'); d.className='media-thumb'; d.innerHTML=`<i class="fas fa-${u.includes('video')?'video':'image'}"></i>`; p.appendChild(d); });
-    }
-    document.getElementById('addMediaBtn').addEventListener('click',()=>{
-      const u=document.getElementById('mediaUrlInput').value.trim();
-      if(u){ tempMedia.push(u); document.getElementById('mediaUrlInput').value=''; renderMedia(); }
-    });
-    document.getElementById('saveDiaryBtn').addEventListener('click',()=>{
-      const txt=document.getElementById('diaryText').value.trim();
-      if(!txt && !tempMedia.length) return;
-      const entry=document.createElement('div');
-      entry.style.background='rgba(255,255,255,0.08)'; entry.style.padding='4px 8px'; entry.style.borderRadius='10px';
-      entry.innerHTML=`<i class="fas fa-pen"></i> ${txt||'(无文字)'}`;
-      document.getElementById('diaryEntries').prepend(entry);
-      document.getElementById('diaryText').value=''; tempMedia=[]; renderMedia();
-    });
-    renderMedia();
-  })();
+    c.scrollTop=c.scrollHeight;
+  }
+  document.querySelectorAll('.diary-tab').forEach(tab=>{ tab.addEventListener('click',function(){ document.querySelectorAll('.diary-tab').forEach(t=>t.classList.remove('active')); this.classList.add('active'); currentDiaryTab=this.dataset.tab; document.getElementById('diaryText').placeholder=currentDiaryTab==='public'?'写公开日记...':'写私人日记...'; load DiarrFromServer(); }); });
+  document.getElementById('saveDiaryBtn').addEventListener('click',()=>{ const txt=document.getElementById('diaryText').value.trim(); if(!txt&&!tempMedia.length)return; saveDiaryToServer({text:txt,media:tempMedia}); document.getElementById('diaryText').value=''; tempMedia=[]; renderMedia(); });
+  function renderMedia(){ const p=document.getElementById('mediaPreview'); p.innerHTML=tempMedia.length?'':'<div class="media-thumb"><i class="fas fa-image"></i></div><div class="media-thumb"><i class="fas fa-video"></i></div>'; tempMedia.forEach(u=>{ const d=document.createElement('div'); d.className='media-thumb'; d.innerHTML=`<i class="fas fa-${u.includes('video')?'video':'image'}"></i>`; p.appendChild(d); }); }
+  document.getElementById('addMediaBtn').addEventListener('click',()=>{ const u=document.getElementById('mediaUrlInput').value.trim(); if(u){ tempMedia.push(u); document.getElementById('mediaUrlInput').value=''; renderMedia(); } });
+  renderMedia();
+})();
 </script>
 </body>
 </html>
