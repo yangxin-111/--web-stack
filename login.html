@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>登录 - 友间小站</title>
+<style>
+  body { padding: 30px; text-align: center; background: #222; color: #fff; }
+  input { padding: 10px; margin: 10px; width: 200px; }
+  button { padding: 10px 30px; background: #ff9f4b; border: none; border-radius: 20px; color: #fff; font-size: 16px; cursor: pointer; }
+  a { color: #ff9f4b; display: block; margin-top: 20px; }
+</style>
+</head>
+<body>
+  <h1>友间小站</h1>
+  <p>请登录</p>
+  <input type="text" placeholder="用户名" id="username"><br>
+  <input type="password" placeholder="密码" id="password"><br>
+  <button onclick="login()">登录</button>
+  <a href="index.html">← 返回群聊</a>
+  <script>
+    function login() {
+      const user = document.getElementById('username').value;
+      if (user) {
+        localStorage.setItem('currentUser', user);
+        window.location.href = 'index.html';
+      }
+    }
+  </script>
+</body>
+</html>
