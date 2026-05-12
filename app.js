@@ -1,108 +1,59 @@
-const WebSocket = require('ws');
-const fs = require('fs');
-const path = require('path');
+ConstWebSocket=需要('WS');
+ConstFS=需要('fs');
+const路径=需要('路径');
 
-const PORT = 3000;
-const MESSAGE_FILE = path.join(__dirname, 'messages.json');
-const DIARY_PUBLIC_FILE = path.join(__dirname, 'diary_public.json');
-const PRIVATE_DIARY_DIR = path.join(__dirname, 'private_diaries');
+Const港口=3000;
+Constmessage_FILE=路径.参加(__目录名, 'messages.json');
+ConstDary_PUBLIC_FILE=路径.参加(__目录名, 'diary_public.json');
+Constprivate_DIARY_DIR=路径.参加(__目录名, 'private_diaries');
 
-if (!fs.existsSync(PRIVATE_DIARY_DIR)) fs.mkdirSync(PRIVATE_DIARY_DIR, { recursive: true });
+如果 (!FS.existsSync(private_DIARY_DIR)) FS.mkdirSync(private_DIARY_DIR, { 递归的：正确 });
 
-function loadJSON(file, fallback = []) {
-  try { if (fs.existsSync(file)) return JSON.parse(fs.readFileSync(file, 'utf8')); } catch (e) {}
-  return fallback;
+功能 loadJSON(文件, 回退=[]) {
+    尝试 {
+        如果 (FS.existsSync(文件)) 返回 JSON.解析(FS.readFileSync(文件, 'utf8'));
+    } 赶上 (e) {}
+    返回 回退;
 }
-function saveJSON(file, data) { fs.writeFileSync(file, JSON.stringify(data, null, 2), 'utf8'); }
+功能 saveJSON(文件, 数据) {
+    FS.writeFileSync(文件, JSON.使字符串化(数据, null, 2), 'utf8');
+}
 
-let messages = loadJSON(MESSAGE_FILE);
-let publicDiary = loadJSON(DIARY_PUBLIC_FILE);
+// 广播消息
+功能 broadcastAll(数据) {
+    WSS.客户.foreach(客户=>{
+        如果 (客户.readyState===WebSocket.打开) 客户.发送(数据);
+    });
+}
 
-const wss = new WebSocket.Server({ port: PORT });
-let onlineUsers = [];
+功能 loadPrivateDiary(用户名) {
+    Const文件=路径.参加(private_DIARY_DIR, `${用户名}.json')；
+返回loadJSON(文件)；
+}
+功能savePrivateDiary(用户名，条目){
+Const文件=路径.参加(private_DIARY_DIR，'${用户名}..json')；'JSON；
+saveJSON(文件，条目)；
+}
 
-wss.on('connection', (ws) => {
-  let currentUser = null;
+ConstWSS=新的WebSocket。服务器({港口：港口})；
+控制台.日志('WebSocket任务在ws://localhost：${港口}‘)；港口}‘)；
 
-  ws.send(JSON.stringify({ type: 'history', messages }));
-  ws.send(JSON.stringify({ type: 'onlineList', users: onlineUsers }));
-
-  ws.on('message', (data) => {
-    try {
-      const msg = JSON.parse(data);
-      if (msg.type === 'join') {
-        currentUser = { name: msg.name, avatar: msg.name[0], color: msg.color || '#ff9f4b' };
-        if (!onlineUsers.find(u => u.name === currentUser.name)) {
-          onlineUsers.push(currentUser);
-        }
-        broadcastOnlineList();
-        broadcastSystem(`${currentUser.name} 加入了群聊`);
-
-      } else if (msg.type === 'chat') {
-        const newMsg = { ...msg, time: new Date().toLocaleTimeString('zh-CN', { hour12: false }), id: Date.now() + Math.random() };
-        messages.push(newMsg);
-        if (messages.length > 200) messages = messages.slice(-200);
-        saveJSON(MESSAGE_FILE, messages);
-        broadcastAll(JSON.stringify({ type: 'chat', ...newMsg }));
-
-      } else if (msg.type === 'diary') {
-        const { action, diaryType, entry, username, entryId } = msg;
-        if (action === 'load') {
-          let entries = diaryType === 'public' ? publicDiary : loadPrivateDiary(username);
-          ws.send(JSON.stringify({ type: 'diaryData', diaryType, entries }));
-
-        } else if (action === 'save') {
-          if (diaryType === 'public') {
-            entry.id = Date.now(); entry.time = new Date().toLocaleString('zh-CN', { hour12: false });
-            publicDiary.unshift(entry);
-            if (publicDiary.length > 50) publicDiary.pop();
-            saveJSON(DIARY_PUBLIC_FILE, publicDiary);
-            broadcastAll(JSON.stringify({ type: 'diaryData', diaryType: 'public', entries: publicDiary }));
-          } else {
-            let entries = loadPrivateDiary(username);
-            entry.id = Date.now(); entry.time = new Date().toLocaleString('zh-CN', { hour12: false });
-            entries.unshift(entry);
-            if (entries.length > 50) entries.pop();
-            savePrivateDiary(username, entries);
-            ws.send(JSON.stringify({ type: 'diaryData', diaryType: 'private', entries }));
-          }
-
-        } else if (action === 'delete' && diaryType === 'private') {
-          let entries = loadPrivateDiary(username);
-          entries = entries.filter(e => e.id !== entryId);
-          savePrivateDiary(username, entries);
-          ws.send(JSON.stringify({ type: 'diaryData', diaryType: 'private', entries }));
-        }
-      }
-    } catch (e) {}
-  });
-
-  ws.on('close', () => {
-    if (currentUser) {
-      onlineUsers = onlineUsers.filter(u => u.name !== currentUser.name);
-      broadcastOnlineList();
-      broadcastSystem(`${currentUser.name} 离开了群聊`);
-    }
-  });
-
-  function broadcastOnlineList() {
-    broadcastAll(JSON.stringify({ type: 'onlineList', users: onlineUsers }));
-  }
-  function broadcastSystem(text) {
-    broadcastAll(JSON.stringify({ type: 'system', text, time: new Date().toLocaleTimeString('zh-CN', { hour12: false }) }));
-  }
-  function broadcastAll(data) {
-    wss.clients.forEach(client => { if (client.readyState === WebSocket.OPEN) client.send(data); });
-  }
+WSS.在……之上('连接'，WS=>{{
+WS.在……上面('消息'，生的=>{
+让msg；
+尝试{味精=JSON.解析(生的)；}赶上(e){返回；}
+        // 这里可以扩展消息类型
+如果(味精.类型==='聊天'){
+//存储到messages.json
+Const消息=loadJSON(message_FILE)；
+消息.推({发件人：味精.发件人，文本：味精.文本，时间：新的日期().toISOString()})；
+如果 (消息.长度>200) 消息.转变(); //保留最近200条
+saveJSON(message_FILE，消息)；
+            // 广播给所有人
+broadcastAll(JSON.使字符串化({类型：'聊天'，发件人：味精.发件人，文本：味精.文本}))；
+} 其他 如果 (味精.类型==='获取历史记录') {
+Const消息=loadJSON(message_FILE)；
+WS.发送(JSON.使字符串化({类型：'历史记录'，消息}))；
+}
 });
-
-function loadPrivateDiary(username) {
-  const file = path.join(PRIVATE_DIARY_DIR, `${username}.json`);
-  return loadJSON(file);
-}
-function savePrivateDiary(username, entries) {
-  const file = path.join(PRIVATE_DIARY_DIR, `${username}.json`);
-  saveJSON(file, entries);
-}
-
-console.log(`✅ WebSocket 服务运行在 ws://localhost:${PORT}`);
+});
