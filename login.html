@@ -79,9 +79,7 @@
       font-size: 1.1rem;
       outline: none;
     }
-    .input-group input::placeholder {
-      color: rgba(255,255,255,0.4);
-    }
+    .input-group input::placeholder { color: rgba(255,255,255,0.4); }
     .login-btn {
       width: 100%;
       background: linear-gradient(135deg, #ff9f4b, #ff6b4b);
@@ -98,21 +96,13 @@
       justify-content: center;
       gap: 8px;
     }
-    .login-btn:active {
-      transform: scale(0.96);
-      opacity: 0.9;
-    }
-    .hint {
-      font-size: 0.75rem;
-      opacity: 0.5;
-      margin-top: 16px;
-    }
+    .login-btn:active { transform: scale(0.96); opacity: 0.9; }
+    .hint { font-size: 0.75rem; opacity: 0.5; margin-top: 16px; }
   </style>
 </head>
 <body>
 <div class="bg-layer"></div>
 <div class="bg-overlay"></div>
-
 <div class="login-container">
   <h1><i class="fas fa-comments"></i> 友间小站</h1>
   <div class="subtitle">输入昵称，立即与朋友聊天</div>
@@ -123,38 +113,22 @@
   <button class="login-btn" id="enterBtn"><i class="fas fa-door-open"></i> 进入小站</button>
   <div class="hint">群聊 · 音乐 · AI · 日记</div>
 </div>
-
 <script>
   const nicknameInput = document.getElementById('nicknameInput');
   const enterBtn = document.getElementById('enterBtn');
-
-  // 检查是否已有昵称，有则直接跳转
-  if (localStorage.getItem('username')) {
-    window.location.href = 'index.html';
-  }
-
+  if (localStorage.getItem('username')) window.location.href = 'index.html';
   function enterSite() {
     const name = nicknameInput.value.trim();
-    if (!name) {
-      alert('请输入昵称～');
-      return;
-    }
-    if (name.length > 12) {
-      alert('昵称最多12个字符');
-      return;
-    }
+    if (!name) { alert('请输入昵称～'); return; }
+    if (name.length > 12) { alert('昵称最多12个字符'); return; }
     localStorage.setItem('username', name);
-    // 随机分配一个头像颜色
-    const colors = ['#ff9f4b', '#5f7d9c', '#7b5ea7', '#3b8c6e', '#e0567a', '#4ecdc4', '#f7b731', '#6c5ce7'];
+    const colors = ['#ff9f4b','#5f7d9c','#7b5ea7','#3b8c6e','#e0567a','#4ecdc4','#f7b731','#6c5ce7'];
     const randomColor = colors[Math.floor(Math.random() * colors.length)];
     localStorage.setItem('myColor', randomColor);
     window.location.href = 'index.html';
   }
-
   enterBtn.addEventListener('click', enterSite);
-  nicknameInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') enterSite();
-  });
+  nicknameInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') enterSite(); });
 </script>
 </body>
 </html>
