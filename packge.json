@@ -1,0 +1,13 @@
+{
+  "name": "chat-room",
+  "version": "1.0.0",
+  "description": "友间小站 - 群聊、音乐、AI、日记",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "ws": "^8.18.0",
+    "formidable": "^3.5.1"
+  }
+}

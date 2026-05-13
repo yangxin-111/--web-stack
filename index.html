@@ -1,0 +1,144 @@
+# 备份当前 index.html
+cp /root/web-stack/index.html /root/web-stack/index.html.bak
+
+# 用 sed 删除整个 <style>...</style> 块，并在 <head> 内添加 <link>
+# 更稳妥的方式是直接替换文件，这里给出一个简化的替换脚本
+cat > /root/web-stack/index.html << 'EOF'
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>友间小站 · 群聊 · 音乐 · AI · 日记</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/syle.css">
+</head>
+<body>
+<div class="app">
+  <div class="header">
+    <h2>友间小站</h2>
+    <i class="fas fa-cog" id="settingsBtn"></i>
+  </div>
+
+  <!-- 左侧竖排菜单 (桌面端) -->
+  <div class="side-menu">
+    <div class="menu-icon active" data-panel="chat"><i class="fas fa-users"></i></div>
+    <div class="menu-icon" data-panel="music"><i class="fas fa-music"></i></div>
+    <div class="menu-icon" data-panel="ai"><i class="fas fa-robot"></i></div>
+    <div class="menu-icon" data-panel="diary"><i class="fas fa-book"></i></div>
+  </div>
+
+  <!-- 面板 -->
+  <div class="panels">
+    <!-- 群聊 -->
+    <div class="panel active" id="chatPanel">
+      <div class="messages" id="messages"></div>
+      <div class="input-area">
+        <input type="text" id="chatInput" placeholder="输入消息...">
+        <button id="sendBtn"><i class="fas fa-paper-plane"></i></button>
+      </div>
+    </div>
+
+    <!-- 音乐 -->
+    <div class="panel" id="musicPanel">
+      <h2>🎵 音乐</h2>
+      <p>在线歌单，<a href="/music/index.html">打开独立播放器</a> 上传新歌</p>
+      <ul id="musicList"></ul>
+    </div>
+
+    <!-- AI -->
+    <div class="panel" id="aiPanel">
+      <h2>🤖 AI助手</h2>
+      <p>智能对话即将开放，敬请期待 ✨</p>
+    </div>
+
+    <!-- 日记 -->
+    <div class="panel" id="diaryPanel">
+      <h2>📖 日记</h2>
+      <p>私人日记空间，<a href="/login.html">登录后使用</a></p>
+    </div>
+  </div>
+
+  <!-- 底部导航 -->
+  <div class="bottom-nav">
+    <div class="nav-item active" data-panel="chat"><i class="fas fa-users"></i>群聊</div>
+    <div class="nav-item" data-panel="music"><i class="fas fa-music"></i>音乐</div>
+    <div class="nav-item" data-panel="ai"><i class="fas fa-robot"></i>AI</div>
+    <div class="nav-item" data-panel="diary"><i class="fas fa-book"></i>日记</div>
+  </div>
+</div>
+
+<script>
+// ---------- 面板切换 ----------
+(function() {
+    const triggers = document.querySelectorAll('.menu-icon, .nav-item');
+    const panels = {
+        chat: document.getElementById('chatPanel'),
+        music: document.getElementById('musicPanel'),
+        ai: document.getElementById('aiPanel'),
+        diary: document.getElementById('diaryPanel')
+    };
+    function switchPanel(name) {
+        Object.values(panels).forEach(p => { if(p) p.style.display = 'none'; });
+        if (panels[name]) panels[name].style.display = 'flex';
+        triggers.forEach(el => el.classList.remove('active'));
+        document.querySelectorAll(`[data-panel="${name}"]`).forEach(el => el.classList.add('active'));
+    }
+    triggers.forEach(trigger => {
+        trigger.addEventListener('click', function() {
+            const panel = this.getAttribute('data-panel');
+            if (panel) switchPanel(panel);
+        });
+    });
+    switchPanel('chat');
+})();
+
+// ---------- 群聊 WebSocket ----------
+const ws = new WebSocket('ws://' + location.hostname + ':3000');
+const messagesDiv = document.getElementById('messages');
+ws.onopen = () => ws.send(JSON.stringify({ type: 'getHistory' }));
+ws.onmessage = (e) => {
+    const data = JSON.parse(e.data);
+    if (data.type === 'history') {
+        data.messages.forEach(m => addMessage(m.sender, m.text, false));
+    } else if (data.type === 'chat') {
+        addMessage(data.sender, data.text, data.sender === getCurrentUser());
+    }
+};
+function getCurrentUser() { return localStorage.getItem('currentUser') || '匿名'; }
+function addMessage(sender, text, isSelf) {
+    const div = document.createElement('div');
+    div.className = 'msg' + (isSelf ? ' self' : '');
+    div.innerHTML = `<strong>${sender}:</strong> ${text}`;
+    messagesDiv.appendChild(div);
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+}
+document.getElementById('sendBtn').addEventListener('click', () => {
+    const input = document.getElementById('chatInput');
+    const text = input.value.trim();
+    if (!text) return;
+    ws.send(JSON.stringify({ type: 'chat', sender: getCurrentUser(), text }));
+    input.value = '';
+});
+document.getElementById('chatInput').addEventListener('keypress', e => {
+    if (e.key === 'Enter') document.getElementById('sendBtn').click();
+});
+
+// ---------- 音乐面板加载歌单 ----------
+fetch('/playlist.json?' + Date.now())
+    .then(res => res.json())
+    .then(tracks => {
+        const ul = document.getElementById('musicList');
+        ul.innerHTML = '';
+        tracks.forEach(track => {
+            const li = document.createElement('li');
+            li.textContent = track.title;
+            li.addEventListener('click', () => window.open('/music/index.html', '_blank'));
+            ul.appendChild(li);
+        });
+    });
+</script>
+</body>
+</html>
+EOF

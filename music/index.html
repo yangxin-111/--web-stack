@@ -1,0 +1,97 @@
+cd /root/web-stack && cat > music/index.html << 'EOF'
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>音乐 - 友间小站</title>
+<style>
+  body { font-family: Arial; text-align: center; padding: 20px; background: #1a1a2e; color: #fff; }
+  a { color: #ff9f4b; display: inline-block; margin: 10px; }
+  ul { list-style: none; padding: 0; }
+  li { padding: 10px; border-bottom: 1px solid #333; cursor: pointer; }
+  li:hover { background: #2c3e6b; }
+  audio { width: 100%; margin-top: 10px; }
+  .upload-section { margin: 20px 0; padding: 15px; background: #16213e; border-radius: 10px; }
+  input, button { padding: 8px; margin: 5px; border-radius: 10px; border: none; }
+  button { background: #ff9f4b; color: white; cursor: pointer; }
+  #status { color: #ff9f4b; margin-top: 5px; font-size: 0.9rem; }
+</style>
+</head>
+<body>
+  <h1>🎵 音乐</h1>
+  <p>当前播放：<span id="nowPlaying">-</span></p>
+  <audio id="player" controls></audio>
+  <ul id="playlist"></ul>
+
+  <div class="upload-section">
+    <h3>上传新歌</h3>
+    <input type="text" id="songTitle" placeholder="歌名（可选）"><br>
+    <input type="file" id="musicFile" accept=".mp3"><br>
+    <button onclick="uploadMusic()">上传到歌单</button>
+    <div id="status"></div>
+  </div>
+
+  <a href="../index.html">← 返回群聊</a>
+
+  <script>
+    function loadPlaylist() {
+      fetch('../playlist.json?' + Date.now())
+        .then(res => res.json())
+        .then(tracks => {
+          const ul = document.getElementById('playlist');
+          ul.innerHTML = '';
+          const player = document.getElementById('player');
+          const now = document.getElementById('nowPlaying');
+          tracks.forEach(track => {
+            const li = document.createElement('li');
+            li.textContent = track.title;
+            li.addEventListener('click', () => {
+              player.src = track.url;
+              player.play();
+              now.textContent = track.title;
+            });
+            ul.appendChild(li);
+          });
+          if (tracks.length > 0 && !player.src.includes(tracks[0].url)) {
+            player.src = tracks[0].url;
+            now.textContent = tracks[0].title;
+          }
+        });
+    }
+
+    function uploadMusic() {
+      const fileInput = document.getElementById('musicFile');
+      const titleInput = document.getElementById('songTitle');
+      const status = document.getElementById('status');
+      const file = fileInput.files[0];
+      if (!file) {
+        status.textContent = '请选择文件';
+        return;
+      }
+      if (!file.name.endsWith('.mp3')) {
+        status.textContent = '只支持 .mp3 文件';
+        return;
+      }
+      const formData = new FormData();
+      formData.append('musicFile', file);
+      if (titleInput.value.trim()) {
+        formData.append('title', titleInput.value.trim());
+      }
+      status.textContent = '上传中...';
+      fetch('/upload', { method: 'POST', body: formData })
+        .then(res => res.text())
+        .then(msg => {
+          status.textContent = msg;
+          loadPlaylist(); // 刷新歌单
+          fileInput.value = '';
+          titleInput.value = '';
+        })
+        .catch(() => status.textContent = '上传失败，请重试');
+    }
+
+    loadPlaylist();
+  </script>
+</body>
+</html>
+EOF
